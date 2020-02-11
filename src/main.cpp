@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "dfa.hpp"
+#include "lts.hpp"
 
 void interface(){
   std::set<char> state_set;
@@ -77,8 +78,8 @@ void interface(){
   }
 }
 
-int main(int argc, char const *argv[]) {
-  std::cout << "Hello, auto-beetle!" << '\n';
+void test_dfa() {
+  std::cout << "DFA test function" << '\n';
   DFA<int> dfa{
     // 状態の集合
     {0,1,2},
@@ -105,5 +106,16 @@ int main(int argc, char const *argv[]) {
     std::cout << std::boolalpha <<dfa.run(instr) << '\n';
   }
   interface();
-  return 0;
+}
+
+void test_lts() {
+  std::cout << "LTS test function" << '\n';
+  std::vector<std::tuple<int, char, int>> values = { {0,'A',0},{0,'B',1},{1,'B',1} };
+  TransFunction<int> tf(values);
+  tf.printt();
+}
+
+int main(int argc, char const *argv[]) {
+  std::cout << "Hello, auto-beetle!" << '\n';
+  test_lts();
 }
