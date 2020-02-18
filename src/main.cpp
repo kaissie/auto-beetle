@@ -112,7 +112,7 @@ void test_lts() {
   std::cout << "LTS test function" << '\n';
   std::vector<std::tuple<int, char, int>> values = { {0,'A',0},{0,'A',1},{0,'B',1},{1,'B',1} };
   TransFunction<int> tf(values);
-  tf.printt();
+  tf.printAll();
 }
 
 int main(int argc, char const *argv[]) {
