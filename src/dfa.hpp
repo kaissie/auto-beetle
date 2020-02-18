@@ -6,20 +6,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
-
-template <typename T>
-struct state {
-  const T value;
-};
-
-struct alphabet {
-
-};
-//
-// template <typename State>
-// struct trans_table {
-//   const std::unordered_map<State, std::unordered_map<char, State>> table;
-// };
+#include <utility>
+#include "lts.hpp"
 
 /**
 * 文字列をvector<char>に変換する
@@ -31,30 +19,27 @@ std::vector<char> str2vec(std::string text){
 }
 
 template <typename State>
-class DFA {
-  using trans_table = std::unordered_map<State, std::unordered_map<char, State>>;
-public:
-  std::set<State> state_set;
-  std::set<char> alphabet_set;
+class DFA : public LTS<State>{
   State init_state;
   std::set<State> accept_state_set;
-  trans_table transitions;
+
+  DFA(LTS<State>::trans_list tl, State init_s, std::set<State> accept_s) : LTS<State>(tl) {
+    init_state = init_s;
+    accept_state_set = accept_s;
+  }
+
   bool run(std::string input_text){
     auto seq = str2vec(input_text);
     int state = init_state;
     for(char c: seq){
-      if (alphabet_set.contains(c))
-        state = transitions.at(state).at(c);
-      else
+      if (this->label_set.contains(c)){
+        auto alpha2state_pair = *(this->t_table.at(state).find(c));
+        state = alpha2state_pair.second;
+      } else
         std::cout << "ERROR : <" << c << "> isn't contained " << '\n';
     }
     return accept_state_set.contains(state);
   }
-  void print(){
-    std::cout << "Hello, dfa" << '\n';
-  }
-
-  void print_table();
 };
 
 #endif // DFA_HPP

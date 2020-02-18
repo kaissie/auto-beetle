@@ -1,16 +1,18 @@
+#ifndef   LTS_HPP
+#define   LTS_HPP
+
 #include <iostream>
 #include <unordered_map>
 #include <map>
 #include <tuple>
 #include <vector>
 
-
 template <typename State>
-class TransFunction {
+class LTS {
+public:
   using trans_list = std::vector<std::tuple<State, char, State>>;
   using trans_table = std::unordered_map<State, std::multimap<char, State>>;
-public:
-  TransFunction(trans_list tl) {
+  LTS(trans_list tl) {
     t_list = tl;
     t_table = convert2table(t_list);
     state_set = getStateSet(t_list);
@@ -54,7 +56,7 @@ public:
     printTable();
   }
 
-private:
+protected:
   trans_list t_list;          // タプル型のリストで表した状態遷移表
   std::set<State> state_set;  // 状態の集合
   std::set<char> label_set;// ラベルの集合
@@ -93,5 +95,5 @@ private:
     }
     return set;
   }
-
 };
+#endif // LTS_HPP
