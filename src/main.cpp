@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "dfa.hpp"
+#include "bisim.hpp"
 
 void test_dfa () {
   std::cout << "DFA test function" << '\n';
@@ -21,8 +22,15 @@ void test_lts() {
   lts.printAll();
 }
 
+void test_bisim() {
+  std::set<int> s{1,2,3,4,5};
+  Partition<int> p(s);
+  printPartition(p);
+}
+
 int main(int argc, char const *argv[]) {
   std::cout << "Hello, auto-beetle!" << '\n';
   test_lts();
   test_dfa();
+  test_bisim();
 }
