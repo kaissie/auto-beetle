@@ -23,9 +23,15 @@ void test_lts() {
 }
 
 void test_bisim() {
-  std::set<int> s{1,2,3,4,5};
-  Partition<int> p(s);
-  printPartition(p);
+  Partition<int> p0({1,2,3,4,5});
+  Partition<int> p1({6,7,8});
+  Partition<int> p2({6,8,7});
+  //printPartition(p);
+  std::cout << "Partition" << (p0+p1+p2) - p0 << '\n';
+  if (p1 == p2) {
+    std::cout << Partition<int>::flatten(p0+p2) << '\n';
+  }
+
 }
 
 int main(int argc, char const *argv[]) {
