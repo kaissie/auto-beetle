@@ -15,9 +15,13 @@ public:
   LTS(trans_list tl) {
     t_list = tl;
     t_table = convert2table(t_list);
-    state_set = getStateSet(t_list);
-    label_set = getLabelSet(t_list);
+    state_set = listToStateSet(t_list);
+    label_set = listToLabelSet(t_list);
   }
+
+  inline std::set<State> getStateSet() { return state_set; }
+  inline std::set<char> getLabelSet() { return label_set; }
+  inline trans_table getTransitions() { return t_table; }
 
   void print() {
     for(auto &t: t_list) {
@@ -77,8 +81,9 @@ protected:
     return tt;
   }
 
+private:
   // 遷移リストから状態の集合を取得
-  std::set<State> getStateSet(const trans_list& tl){
+  std::set<State> listToStateSet(const trans_list& tl){
     std::set<State> set;
     for(auto &t: t_list) {
       auto &state  = std::get<0>(t);
@@ -87,7 +92,7 @@ protected:
     return set;
   }
   // 遷移リストからラベルの集合を取得
-  std::set<char> getLabelSet(const trans_list& tl){
+  std::set<char> listToLabelSet(const trans_list& tl){
     std::set<char> set;
     for(auto &t: t_list) {
       auto &label  = std::get<1>(t);
