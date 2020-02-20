@@ -20,10 +20,14 @@ public:
   }
   const partition& getBlockSet() const { return block_set; }
 
+  static void refinement(LTS<State> L1, LTS<State> L2) {
+    auto states_1 = L1.getStateSet();
+    auto states_2 = L2.getStateSet();
+    auto actions_1 = L1.getLabelSet();
+    auto actions_2 = L2.getLabelSet();
 
-  void refinement(LTS<State> L1, LTS<State> L2) {
-    std::set<State> state_set;
-    std::set<char> action_set;
+    std::set<State> state_set = states_1.insert(states_2.begin(), states_2.end());
+    std::set<char> action_set = actions_1.insert(actions_2.begin(), actions_2.end());
     Partition<State> P(state_set);
     bool changed = true;
     while (changed){
