@@ -23,20 +23,43 @@ void test_lts() {
 }
 
 void test_bisim() {
-  Partition<int> p0({1,2,3,4,5});
-  Partition<int> p1({6,7,8});
-  Partition<int> p2({6,8,7});
-  //printPartition(p);
-  std::cout << "Partition" << (p0+p1+p2) - p0 << '\n';
-  if (p1 == p2) {
-    std::cout << Partition<int>::flatten(p0+p2) << '\n';
-  }
-
+  // Partition<int> p0({1,2,3,4,5});
+  // Partition<int> p1({6,7,8});
+  // Partition<int> p2({6,8,7});
+  // //printPartition(p);
+  // std::cout << "Partition" << (p0+p1+p2) - p0 << '\n';
+  // if (p1 == p2) {
+  //   std::cout << Partition<int>::flatten(p0+p2) << '\n';
+  // }
+  std::cout << "==================================" << '\n';
+  LTS<int> lts1({ {0,'a',1},{0,'a',2},{1,'b',2},{2,'b',2} });
+  LTS<int> lts2({ {10,'a',11},{11,'b',11} });
+  lts1.printAll();
+  lts2.printAll();
+  Partition<int>::refinement(lts1,lts2);
+  std::cout << "==================================" << '\n';
+  LTS<std::string> lts3({
+    {"s0",'a',"s1"},{"s0",'a',"s2"},
+    {"s1",'a',"s3"},{"s1",'b',"s4"},
+    {"s2",'a',"s4"},
+    {"s3",'a',"s0"},
+    {"s4",'a',"s0"}});
+  LTS<std::string> lts4({
+    {"t0",'a',"t1"},{"t0",'a',"t3"},
+    {"t1",'a',"t2"},{"t1",'b',"t2"},{"t1",'b',"t5"},
+    {"t2",'a',"t0"},
+    {"t3",'a',"t4"},
+    {"t4",'a',"t0"},
+    {"t5",'a',"t0"},
+    {"t5",'a',"t4"}});
+  lts3.printAll();
+  lts4.printAll();
+  Partition<std::string>::refinement(lts3,lts4);
 }
 
 int main(int argc, char const *argv[]) {
   std::cout << "Hello, auto-beetle!" << '\n';
-  test_lts();
-  test_dfa();
+  //test_lts();
+  //test_dfa();
   test_bisim();
 }
