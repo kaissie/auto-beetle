@@ -21,7 +21,7 @@ public:
   }
   const partition& getBlockSet() const { return block_set; }
 
-  static void refinement(LTS<State> L1, LTS<State> L2) {
+  static Partition<State> refinement(LTS<State> L1, LTS<State> L2) {
     auto state_set = L1.getStateSet();
     auto states_2 = L2.getStateSet();
     auto action_set = L1.getLabelSet();
@@ -34,27 +34,24 @@ public:
     transitions_set.insert(transitions_2.begin(), transitions_2.end());
 
     Partition<State> P(state_set);
-    std::cout << "Log : "<< P << '\n';
+
     bool changed = true;
-    int i = 1;
     while (changed){
-      std::cout << "Step " << i << '\n';
       changed = false;
       for(auto &block: P.block_set) {
         for(auto &action: action_set) {
           //auto sorted_block = sortTransitions(action, block);
-          if(changed) break;
           auto splitting = split(block, action, P, transitions_set);
           if (splitting != Partition(block)) {
             P = (P - Partition(block)) + splitting;
-            std::cout << "Log : "<< P << '\n';
             changed = true;
             break;
           }
         }
+        if(changed) break;
       }
-      i++;
     }
+    return P;
   }
 
   Partition<State> operator+(const Partition<State>& rhs) {
@@ -107,12 +104,6 @@ private:
   }
   static Partition<State> split(block B, char a, Partition<State> P, LTS<State>::trans_table TT) {
     State s = *(B.begin());
-    State next_s = TT[s].find(a)->second;
-    block next_block;
-    for (auto p : P.getBlockSet()) {
-      if(p.contains(next_s)) next_block = p;
-    }
-    if (next_block.empty()) next_block = B;
     block b1 = {}, b2 = {};
 
     for(auto t : B) {
