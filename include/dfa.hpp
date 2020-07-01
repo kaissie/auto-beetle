@@ -7,6 +7,7 @@
 #include <vector>
 #include <iostream>
 #include <utility>
+#include <algorithm>
 #include "lts.hpp"
 
 /**
