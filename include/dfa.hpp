@@ -24,7 +24,7 @@ class DFA : public LTS<State>{
   State init_state;
   std::set<State> accept_state_set;
 public:
-  DFA(LTS<State>::trans_list tl, State init_s, std::set<State> accept_s) : LTS<State>(tl) {
+  DFA(typename LTS<State>::trans_list tl, State init_s, std::set<State> accept_s) : LTS<State>(tl) {
     init_state = init_s;
     accept_state_set = accept_s;
   }

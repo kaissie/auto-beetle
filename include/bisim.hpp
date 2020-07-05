@@ -92,7 +92,7 @@ private:
   void sortTransitions(char a, block &b) {
 
   }
-  static partition belongBlock(State s, char a, partition p, LTS<State>::trans_table TT) {
+  static partition belongBlock(State s, char a, partition p,typename LTS<State>::trans_table TT) {
     auto ret = TT[s].equal_range(a);
     partition belong_block_set = {};
     for (auto it = ret.first; it != ret.second; ++it){
@@ -102,7 +102,7 @@ private:
     }
     return belong_block_set;
   }
-  static Partition<State> split(block B, char a, Partition<State> P, LTS<State>::trans_table TT) {
+  static Partition<State> split(block B, char a, Partition<State> P, typename LTS<State>::trans_table TT) {
     State s = *(B.begin());
     block b1 = {}, b2 = {};
 

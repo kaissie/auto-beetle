@@ -6,6 +6,7 @@
 #include <map>
 #include <tuple>
 #include <vector>
+#include <set>
 
 template <typename State>
 class LTS {
